@@ -1,0 +1,22 @@
+<div class="columns is-mobile" style="padding: 10px;">
+  <div class="column is-half is-offset-one-quarter">
+    <div>
+      <progress *ngIf="kkupflStandings === undefined" class="progress is-small is-primary" max="100">60%</progress>
+    </div>
+    <div *ngIf="kkupflStandings !== undefined">
+      <div *ngFor="let standing of kkupflStandings; let i = index;" class="card">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-4">{{i + 1}}. {{standing.name}}</p>
+              <p class="subtitle is-6">{{standing.score}}</p>
+            </div>
+          </div>
+          <div class="content">
+            {{standing.league}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

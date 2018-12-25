@@ -1,0 +1,95 @@
+<div class="columns">
+  <div class="column is-one-fifth">
+    <aside class="menu">
+      <p class="menu-label">
+        Teams
+      </p>
+      <ul *ngIf="teams !== null" class="menu-list">
+        <li *ngFor="let team of teams"><a>{{team.name}}</a></li>
+      </ul>
+    </aside>
+  </div>
+  <div class="column">
+    <span *ngIf="players === null">Loading Players</span>
+
+    <input type="text" class="input is-primary" placeholder="Name Search" #searchBox id="search-box" (keyup)="search(searchBox.value)"/>
+    <table *ngIf="players !== null" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" style="font-size: small;">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Name</th>
+          <th>Pos</th>
+          <th>Adp</th>
+          <th *ngFor="let stat of stats">{{stat.name}}</th>
+        </tr>
+      </thead>
+      <tbody style="height: 600px; max-height: 600px; overflow-y: scroll">
+        <tr *ngFor="let player of visiblePlayers">
+          <td>{{player.rank}}</td>
+          <td>{{player.name}}</td>
+          <td>{{player.position}}</td>
+          <td>{{player.adp}}</td>
+          <td *ngFor="let stat of player.stats">{{stat.value}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div>
+  <table *ngIf="draftPicks !== null" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" style="font-size: small;">
+    <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Name</th>
+      <th>Pos</th>
+      <th>Adp</th>
+      <th *ngFor="let stat of stats">{{stat.name}}</th>
+    </tr>
+    </thead>
+    <tbody *ngIf="playerObjectFromDraft !== undefined">
+    <tr *ngFor="let pick of playerObjectFromDraft">
+      <td>{{pick.rank}}</td>
+      <td>{{pick.name}}</td>
+      <td>{{pick.position}}</td>
+      <td>{{pick.adp}}</td>
+      <td *ngFor="let stat of pick.stats">{{stat.value}}</td>
+    </tr>
+    <tr *ngIf="totals !== undefined">
+      <td>
+        Results:
+      </td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td *ngFor="let result of totals">{{result}}</td>
+    </tr>
+    <tr *ngIf="report !== undefined">
+      <td>
+        Min
+      </td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td *ngFor="let stat of report.minStats">{{stat.value}}</td>
+    </tr>
+    <tr *ngIf="report !== undefined">
+      <td>
+        Max
+      </td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td *ngFor="let stat of report.maxStats">{{stat.value}}</td>
+    </tr>
+    <tr *ngIf="report !== undefined">
+      <td>
+        Avg:
+      </td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td *ngFor="let stat of report.avgStats">{{stat.value}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
