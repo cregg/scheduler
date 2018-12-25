@@ -32,6 +32,8 @@ object SchedServer {
     val objectMapper = new ObjectMapper
     objectMapper.registerModule(DefaultScalaModule)
     JavalinJackson.configure(objectMapper)
+    val dir = System.getProperty("user.dir")
+    System.out.println("current dir = " + dir)
     val javalinApp: Javalin = Javalin.create().enableCorsForOrigin("*").start(7000)
 
     javalinApp.after("*", PostFilterHandler())
@@ -41,6 +43,12 @@ object SchedServer {
       ctx.redirect(yahooService.url())
     })
     javalinApp.get("/callback", (ctx) => {
+      val yahooService = YahooOauthService.initService()
+      val token: OAuth2AccessToken = yahooService.service.getAccessToken(ctx.queryParam("oauth_code"))
+      ctx.cookie("auth_token", token.getAccessToken)
+      ctx.redirect("http://localhost:4200")
+    })
+    javalinApp.get("/callbackLocal", (ctx) => {
       val yahooService = YahooOauthService.initService()
       val token: OAuth2AccessToken = yahooService.service.getAccessToken(ctx.queryParam("oauth_code"))
       ctx.cookie("auth_token", token.getAccessToken)
